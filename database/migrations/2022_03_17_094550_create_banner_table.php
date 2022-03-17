@@ -13,9 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('categories', function (Blueprint $table) {
+        Schema::create('banner', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
+            $table->string('name', 200);
+            $table->string('image', 200);
+            $table->string('link', 255)->nullable();
+            $table->string('description', 255);
             $table->tinyInteger('status')->default(1);
             $table->tinyInteger('prioty')->default(0);
             $table->timestamps();
@@ -29,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('banner');
     }
 };
