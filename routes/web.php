@@ -16,11 +16,21 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('index');
 });
 
-Route::resource('categories', CategoryController::class);
+Route::get('shop-grid', function () {
+    return view('shop-grid');
+});
+
 
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::group(['prefix' => 'admin'], function () {
+    Route::get('', function () {
+        return view('admin.dashboard');
+    });
+    Route::resource('categories', CategoryController::class);
+});
