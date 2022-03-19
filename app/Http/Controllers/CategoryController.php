@@ -2,11 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Components\Recusive;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
+    private $categories = '';
+    public function __construct(Category $categories)
+    {
+        $this->categories = $categories;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +20,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::latest()->paginate(5);
+        $categories = Category::latest()->search()->paginate(5);
         return view('admin.category.index', compact('categories'));
     }
 
@@ -23,9 +29,12 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function create()
     {
-        //
+        $data = new Recusive($this->categories::all());
+        $htmlOption = $data->Recusive($parent_id = '');
+        return view('admin.category.create', compact('htmlOption'));
     }
 
     /**
@@ -36,7 +45,20 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate(
+            [
+                'name' => 'required|unique:categories|max:255',
+            ],
+            [
+                'name.required' => 'Vui lòng không để trống tên danh mục',
+                'name.unique' => 'Tên danh mục đã tồn tại',
+            ]
+        );
+        $this->categories::create([
+            'name' => $request->name,
+            'parent_id' => $request->parent_id,
+        ]);
+        return redirect()->back()->with('status', 'Thêm danh mục thành công');
     }
 
     /**
@@ -58,7 +80,9 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        $data = new Recusive($this->categories::all());
+        $htmlOption = $data->Recusive($parent_id = $category->parent_id);
+        return view('admin.category.edit', compact('category', 'htmlOption'));
     }
 
     /**
@@ -70,7 +94,19 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        $request->validate(
+            [
+                'name' => 'required|max:255',
+            ],
+            [
+                'name.required' => 'Vui lòng không để trống tên danh mục',
+            ]
+        );
+        $category->update([
+            'name' => $request->name,
+            'parent_id' => $request->parent_id,
+        ]);
+        return redirect()->back()->with('status', 'Sửa danh mục thành công');
     }
 
     /**

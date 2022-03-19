@@ -9,4 +9,17 @@ class Category extends Model
 {
     use HasFactory;
     protected $guarded = [];
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
+    // localScope
+    public function scopeSearch($query)
+    {
+        if ($search = request()->search) {
+            $query = $query->where('name', 'like', '%' . $search . '%');
+        }
+        return $query;
+    }
+    // globalScope
 }
