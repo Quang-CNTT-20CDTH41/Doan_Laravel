@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('name')->unique();
             $table->integer('parent_id');
             $table->tinyInteger('status')->default(1);
-            $table->tinyInteger('prioty')->default(0);
             $table->timestamps();
         });
     }

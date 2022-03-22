@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Components\Recusive;
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -14,7 +16,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.product.index');
     }
 
     /**
@@ -24,7 +26,9 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        $data = new Recusive(Category::all());
+        $htmlOption = $data->Recusive($parent_id = '');
+        return view('admin.product.create', compact('htmlOption'));
     }
 
     /**

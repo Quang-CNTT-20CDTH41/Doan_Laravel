@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderDetailController;
 use App\Http\Controllers\ProductController;
@@ -24,14 +25,14 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-Route::get('', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('shop-grid', [App\Http\Controllers\HomeController::class, 'shop_grid'])->name('shop_grid');
-Route::get('shop-details', [App\Http\Controllers\HomeController::class, 'shop_details'])->name('shop_details');
-Route::get('shoping-cart', [App\Http\Controllers\HomeController::class, 'shoping_cart'])->name('shoping_cart');
-Route::get('checkout', [App\Http\Controllers\HomeController::class, 'checkout'])->name('checkout');
-Route::get('blog-details', [App\Http\Controllers\HomeController::class, 'blog_details'])->name('blog_details');
-Route::get('blog', [App\Http\Controllers\HomeController::class, 'blog'])->name('blog');
-Route::get('contact', [App\Http\Controllers\HomeController::class, 'contact'])->name('contact');
+Route::get('', [HomeController::class, 'index'])->name('home');
+Route::get('shop-grid', [HomeController::class, 'shop_grid'])->name('shop_grid');
+Route::get('shop-details', [HomeController::class, 'shop_details'])->name('shop_details');
+Route::get('shoping-cart', [HomeController::class, 'shoping_cart'])->name('shoping_cart');
+Route::get('checkout', [HomeController::class, 'checkout'])->name('checkout');
+Route::get('blog-details', [HomeController::class, 'blog_details'])->name('blog_details');
+Route::get('blog', [HomeController::class, 'blog'])->name('blog');
+Route::get('contact', [HomeController::class, 'contact'])->name('contact');
 
 Route::group(['prefix' => 'admin'], function () {
     Route::get('', [AdminController::class, 'index'])->name('admin');
@@ -44,4 +45,5 @@ Route::group(['prefix' => 'admin'], function () {
         'banner' => BannerController::class,
         'accounts' => AccountController::class,
     ]);
+    Route::get('accountsearch', [AccountController::class, 'search'])->name('accounts.search');
 });

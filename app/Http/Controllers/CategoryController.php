@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Components\Recusive;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Http\Requests\Category\StoreRequest;
+use App\Http\Requests\Category\UpdateRequest;
 
 class CategoryController extends Controller
 {
@@ -43,22 +45,11 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        $request->validate(
-            [
-                'name' => 'required|unique:categories|max:255',
-            ],
-            [
-                'name.required' => 'Vui lòng không để trống tên danh mục',
-                'name.unique' => 'Tên danh mục đã tồn tại',
-            ]
-        );
-        $this->categories::create([
-            'name' => $request->name,
-            'parent_id' => $request->parent_id,
-        ]);
-        return redirect()->back()->with('status', 'Thêm danh mục thành công');
+        if ($this->categories::create($request->all())) {
+            return redirect()->back()->with('status', 'Thêm danh mục thành công');
+        }
     }
 
     /**
@@ -92,21 +83,11 @@ class CategoryController extends Controller
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(UpdateRequest $request, Category $category)
     {
-        $request->validate(
-            [
-                'name' => 'required|max:255',
-            ],
-            [
-                'name.required' => 'Vui lòng không để trống tên danh mục',
-            ]
-        );
-        $category->update([
-            'name' => $request->name,
-            'parent_id' => $request->parent_id,
-        ]);
-        return redirect()->back()->with('status', 'Sửa danh mục thành công');
+        if ($category->update($request->all())) {
+            return redirect()->back()->with('status', 'Thêm danh mục thành công');
+        }
     }
 
     /**
@@ -117,6 +98,11 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        if ($category->products->count() > 0) {
+            return redirect()->route('categories.index')->with('error', "Không thể xoá danh mục này");
+        } else {
+            $category->delete();
+            return redirect()->route('categories.index')->with('status', "Xoá danh mục thành công");
+        }
     }
 }

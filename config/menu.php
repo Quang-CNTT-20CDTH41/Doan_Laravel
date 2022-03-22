@@ -70,15 +70,5 @@ return [
         'label' => 'Account Manager',
         'route' => 'accounts.index',
         'icon' => 'fa-user',
-        'items' => [
-            [
-                'label' => 'All Account',
-                'route' => 'accounts.index',
-            ],
-            [
-                'label' => 'Statistical',
-                'route' => 'accounts.create',
-            ],
-        ]
     ],
 ];
