@@ -62,7 +62,7 @@
                 var keyword = $(this).val();
                 $.ajax({
                     type: 'get',
-                    url: "{{ route('accounts.search') }}",
+                    url: "{{ route('accounts.index') }}",
                     data: {
                         keyword: keyword
                     },

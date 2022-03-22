@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Components\Recusive;
+use App\Http\Requests\Product\StoreRequest;
 use App\Models\Category;
 use App\Models\Product;
-use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
@@ -16,7 +16,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return view('admin.product.index');
+        $products = Product::latest()->search()->paginate(5);
+        return view('admin.product.index', compact('products'));
     }
 
     /**
@@ -37,9 +38,16 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        //
+        $file = $request->file_upload;
+        $file_extension = $file->extension();
+        $file_name = time() . '-' . 'product.' . $file_extension;
+        $file->move(public_path('uploads/products'), $file_name);
+        $request->merge(['image' => $file_name]);
+        if (Product::create($request->all())) {
+            return redirect()->back()->with('status', 'Create Product successfully ');
+        }
     }
 
     /**
@@ -71,7 +79,7 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product)
+    public function update(StoreRequest $request, Product $product)
     {
         //
     }

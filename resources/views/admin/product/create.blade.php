@@ -1,5 +1,9 @@
 @extends('layouts.admin')
 @section('title', 'Admin Product Create')
+@section('css')
+    <!-- summernote -->
+    <link rel="stylesheet" href="{{ asset('dashboard/plugins/summernote/summernote-bs4.min.css') }}">
+@endsection
 @section('main')
     <div class="content-wrapper px-2">
         @include('layouts.inc.admin.content-header', [
@@ -13,23 +17,13 @@
                             class="fa fa-backward"></i> Back</a>
                 </div>
                 <div class="">
-                    {{-- @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif --}}
-
                     @if (session('status'))
                         <div class="alert alert-success" role="alert">
                             {{ session('status') }}
                         </div>
                     @endif
 
-                    <form action="{{ route('products.store') }}" method="post">
+                    <form action="{{ route('products.store') }}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
                             <div class="col-sm-6 mx-4">
@@ -45,24 +39,31 @@
                                 <div class="form-group row">
                                     <label for="" class="col-form-label">Hình ảnh chi tiết</label>
                                     <input type="file" class="form-control" name="image_list" multiple>
-                                    @error('image')
+                                    @error('image_list')
                                         <small class="form-text text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
 
-                                <div class="form-group row">
-                                    <label for="" class="col-form-label">Nội dung</label>
-                                    <textarea name="description" class="form-control" id="" cols="20" rows="7">{{ old('description') }}</textarea>
-                                    @error('description')
-                                        <small class="form-text text-danger">{{ $message }}</small>
-                                    @enderror
+                                <div class="form-group row card card-outline card-info">
+                                    <div class="card-header">
+                                        <h3 class="card-title">
+                                            Nội dung
+                                        </h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <textarea id="summernote" rows="20" cols="20" name="description"></textarea>
+                                        @error('description')
+                                            <small class="form-text text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
                                 </div>
+                                <!-- /.content -->
                             </div>
 
                             <div class="col-sm-5">
                                 <div class="form-group row">
                                     <label for="" class="col-form-label ">Giá</label>
-                                    <input type="text" class="form-control" placeholder="Nhập giá" name="price"
+                                    <input type="number" class="form-control" placeholder="Nhập giá" name="price"
                                         value="{{ old('price') }}">
                                     @error('price')
                                         <small class="form-text text-danger">{{ $message }}</small>
@@ -71,7 +72,7 @@
 
                                 <div class="form-group row">
                                     <label for="" class="col-form-label">Giá giảm giá</label>
-                                    <input type="text" class="form-control" placeholder="Nhập giá giảm giá"
+                                    <input type="number" class="form-control" placeholder="Nhập giá giảm giá"
                                         name="sale_price" value="{{ old('sale_price') }}">
                                     @error('sale_price')
                                         <small class="form-text text-danger">{{ $message }}</small>
@@ -80,8 +81,8 @@
 
                                 <div class="form-group row">
                                     <label for="" class="col-form-label">Hình ảnh đại diện</label>
-                                    <input type="file" class="form-control" name="image">
-                                    @error('image')
+                                    <input type="file" class="form-control" name="file_upload">
+                                    @error('file_upload')
                                         <small class="form-text text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
@@ -89,7 +90,6 @@
                                 <div class="form-group row">
                                     <label for="" class="col-form-label">Chọn danh mục</label>
                                     <select class="form-select" name="category_id">
-                                        <option selected value="0">Chọn danh mục</option>
                                         {!! $htmlOption !!}
                                     </select>
                                 </div>
@@ -103,4 +103,16 @@
             </div>
         </div>
     </div>
+@endsection
+@section('js')
+    <!-- Summernote -->
+    <script src="{{ asset('dashboard/plugins/summernote/summernote-bs4.min.js') }}"></script>
+    <script>
+        $(function() {
+            // Summernote
+            $('#summernote').summernote({
+                placeholder: 'Vui lòng nhập nội dung mô tả sản phẩm'
+            })
+        })
+    </script>
 @endsection

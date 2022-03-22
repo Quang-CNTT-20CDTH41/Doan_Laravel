@@ -1,9 +1,9 @@
 @extends('layouts.admin')
-@section('title', 'Admin Categories List')
+@section('title', 'Admin Product List')
 @section('main')
     <div class="content-wrapper px-3">
         @include('layouts.inc.admin.content-header', [
-            'name' => 'Category',
+            'name' => 'Product',
             'key' => 'List',
         ])
         <form action="" method="get">
@@ -18,7 +18,7 @@
                     </button>
                 </div>
                 <div class="ml-auto p-2">
-                    <a href="{{ route('categories.create') }}" class="btn btn-success">Create Category</a>
+                    <a href="{{ route('products.create') }}" class="btn btn-success">Create Product</a>
                 </div>
 
             </div>
@@ -39,31 +39,32 @@
                     <tr>
                         <th scope="col">ID</th>
                         <th scope="col">Name</th>
-                        <th scope="col">Total Product</th>
+                        <th scope="col">Price / Sale</th>
+                        <th scope="col">Category</th>
                         <th scope="col">Status</th>
-                        <th scope="col">Created Date</th>
                         <th class="text-right pr-4">Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($categories as $category)
+                    @foreach ($products as $product)
                         <tr>
-                            <th>{{ $category->id }}</th>
-                            <td>{{ $category->name }}</td>
-                            <td>{{ $category->products->count() }}</td>
+                            <th>{{ $product->id }}</th>
+                            <td>{{ $product->name }}</td>
+                            <td>{{ $product->price }} / <span class="badge bg-success">{{ $product->sale_price }}</span>
+                            </td>
+                            <td>{{ $product->category->name }}</td>
                             <td>
-                                @if ($category->status == 0)
+                                @if ($product->status == 0)
                                     <span class="badge badge-danger">Private</span>
                                 @else
                                     <span class="badge badge-success">Public</span>
                                 @endif
                             </td>
-                            <td>{{ $category->created_at->format('m-d-yy') }}</td>
                             <td class="text-right">
-                                <a href="{{ route('categories.edit', [$category]) }}" class="btn btn-success"><i
+                                <a href="{{ route('products.edit', [$product]) }}" class="btn btn-success"><i
                                         class="fa fa-edit"></i></a>
-                                <a href="{{ route('categories.destroy', [$category]) }}"
-                                    class="btn btn-danger btndelete"><i class="fa fa-trash"></i></a>
+                                <a href="{{ route('products.destroy', [$product]) }}" class="btn btn-danger btndelete"><i
+                                        class="fa fa-trash"></i></a>
                             </td>
                         </tr>
                     @endforeach
@@ -72,7 +73,7 @@
         </div>
         <hr>
         <div class="mx-2 float-end">
-            {{ $categories->appends(request()->all())->links() }}
+            {{ $products->appends(request()->all())->links() }}
         </div>
         <form action="" method="post" id="form-delete">
             @csrf

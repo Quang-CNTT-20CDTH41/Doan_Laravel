@@ -45,5 +45,6 @@ Route::group(['prefix' => 'admin'], function () {
         'banner' => BannerController::class,
         'accounts' => AccountController::class,
     ]);
-    Route::get('accountsearch', [AccountController::class, 'search'])->name('accounts.search');
+    // Route::get('accountsearch', [AccountController::class, 'search'])->name('accounts.search');
 });
+
