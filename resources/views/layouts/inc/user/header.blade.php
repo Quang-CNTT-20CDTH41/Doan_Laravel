@@ -27,8 +27,52 @@
                                 <li><a href="#">English</a></li>
                             </ul>
                         </div>
+
                         <div class="header__top__right__auth">
-                            <a href="#"><i class="fa fa-user"></i> Login</a>
+                            <ul class="navbar-nav ms-auto d-flex">
+                                @guest
+                                    <div class="row d-flex">
+                                        @if (Route::has('login'))
+                                            <li class="nav-item px-2">
+                                                <a class="nav-link"
+                                                    href="{{ route('login') }}">{{ __('Đăng nhập') }}</a>
+                                            </li>
+                                        @endif
+
+                                        @if (Route::has('register'))
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="{{ route('register') }}">|
+                                                    {{ __('Đăng ký') }}</a>
+                                            </li>
+                                        @endif
+                                    </div>
+                                @else
+                                    <li class="nav-item dropdown">
+                                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                            {{ Auth::user()->name }}
+                                        </a>
+
+                                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown"
+                                            style="position:absolute; margin-top:-4px">
+
+                                            <a class="dropdown-item" href="{{ route('profile') }}">
+                                                {{ __('Profile') }}
+                                            </a>
+
+                                            <a class="dropdown-item" href="{{ route('logout') }}"
+                                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">{{ __('Logout') }}
+                                            </a>
+
+                                            <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                                class="d-none">
+                                                @csrf
+                                            </form>
+
+                                        </div>
+                                    </li>
+                                @endguest
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -49,7 +93,6 @@
                         <li><a href="{{ route('shop_grid') }}">Shop</a></li>
                         <li><a href="#">Pages</a>
                             <ul class="header__menu__dropdown">
-                                <li><a href="{{ route('shop_details') }}">Shop Details</a></li>
                                 <li><a href="{{ route('shoping_cart') }}">Shoping Cart</a></li>
                                 <li><a href="{{ route('checkout') }}">Check Out</a></li>
                                 <li><a href="{{ route('blog_details') }}">Blog Details</a></li>

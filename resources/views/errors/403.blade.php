@@ -52,8 +52,8 @@
             opacity: 0;
             visibility: hidden;
             /* define an animation for the keyhole, to introduce it
-                                                      paused by default, run with a timeout in JavaScript
-                                                      */
+                                                          paused by default, run with a timeout in JavaScript
+                                                          */
             animation: showKey 0.5s 0.5s paused ease-out forwards;
         }
 
@@ -64,8 +64,8 @@
             opacity: 0;
             visibility: hidden;
             /* define an animation for the keyhole, to introduce it
-                                                      paused by default, run with a timeout in JavaScript
-                                                      */
+                                                          paused by default, run with a timeout in JavaScript
+                                                          */
             animation: showKey 0.5s 0.5s paused ease-out forwards;
         }
 
@@ -95,9 +95,9 @@
             opacity: 0;
             /* have each string of text introduced as the ghost returns from the right edge of the screen, and for the length of time it takes to cover the central portion (a fourth, which becomes an eight as the animation length is half the total duration) */
             /* the delay for an hypothetical duration of 40s is 7.5s for the first, 27.5s for the second and finally 40s for the last
-                                                      in fractions and with a bit of math it boils down to 3/16, 27/40 and 1
-                                                      // ! remember to include a slight delay in the animation of the key and keyhole
-                                                      */
+                                                          in fractions and with a bit of math it boils down to 3/16, 27/40 and 1
+                                                          // ! remember to include a slight delay in the animation of the key and keyhole
+                                                          */
             animation:
                 showText calc(var(--animation-duration)/8) calc(var(--animation-duration)*3/16) ease-out forwards,
                 showNewText calc(var(--animation-duration)/8) calc(var(--animation-duration)*27/40) ease-out forwards,
@@ -106,10 +106,10 @@
         }
 
         /* define the keyframe animations
-                                                    - hoverghost to have the ghost move right, left and then back to its default position
-                                                    - showKey to introduce into view the key (and keyhole) svg
-                                                    - showText, showNewText, showFinalText to show the different strings (the implementation is quite quirky and primed for optimization)
-                                                     */
+                                                        - hoverghost to have the ghost move right, left and then back to its default position
+                                                        - showKey to introduce into view the key (and keyhole) svg
+                                                        - showText, showNewText, showFinalText to show the different strings (the implementation is quite quirky and primed for optimization)
+                                                         */
         @keyframes hoverGhost {
             25% {
                 transform: translateX(20vw);
@@ -263,9 +263,9 @@
             </svg>
 
             <!--
-                                                                ! nest the svg in a vi, give the svg and vi the same class
-                                                                the div and svg behave differently when translating the element through the transform property, giving a nice distance between the text (included with a pseudo element on the div) and the svg
-                                                              -->
+                                                                    ! nest the svg in a vi, give the svg and vi the same class
+                                                                    the div and svg behave differently when translating the element through the transform property, giving a nice distance between the text (included with a pseudo element on the div) and the svg
+                                                                  -->
             <div class="ghost">
                 <svg class="ghost">
                     <use href="#ghost" />

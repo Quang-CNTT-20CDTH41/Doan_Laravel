@@ -38,10 +38,22 @@
 
                                 <div class="form-group row">
                                     <label for="" class="col-form-label">Hình ảnh chi tiết</label>
-                                    <input type="file" class="form-control" name="image_list" multiple>
+
+                                    <div class="input-group px-0">
+                                        <input type="text" class="form-control d-none" id="image_list"
+                                            placeholder="Tải hình ảnh" name="image_list" multiple
+                                            value="{{ old('image_list') }}">
+                                        <span class=""><button type="button" class="btn btn-danger text-white"
+                                                data-toggle="modal" data-target="#imagelist"><i
+                                                    class="fas fa-folder"></i></button></span>
+                                    </div>
+                                    <div id="show_image_list" class="row mt-3">
+
+                                    </div>
                                     @error('image_list')
                                         <small class="form-text text-danger">{{ $message }}</small>
                                     @enderror
+
                                 </div>
 
                                 <div class="form-group row card card-outline card-info">
@@ -51,7 +63,7 @@
                                         </h3>
                                     </div>
                                     <div class="card-body">
-                                        <textarea id="summernote" rows="20" cols="20" name="description"></textarea>
+                                        <textarea id="summernote" rows="20" cols="20" name="description">{{ old('name') }}</textarea>
                                         @error('description')
                                             <small class="form-text text-danger">{{ $message }}</small>
                                         @enderror
@@ -81,8 +93,19 @@
 
                                 <div class="form-group row">
                                     <label for="" class="col-form-label">Hình ảnh đại diện</label>
-                                    <input type="file" class="form-control" name="file_upload">
-                                    @error('file_upload')
+                                    <div class="input-group px-0">
+                                        <input type="text" class="form-control d-none" id="image" placeholder="Tải hình ảnh"
+                                            name="image" value="{{ old('image') }}>
+                                                                <span class="      "><button type="button"
+                                            class="btn btn-success text-white" data-toggle="modal"
+                                            data-target="#fileimage"><i class="fas fa-folder"></i></button></span>
+                                        <div class="m-3">
+                                            <img src="" class="img-fluid img-thumbnail" id="showimage" alt=""
+                                                style="width:250px">
+                                        </div>
+                                    </div>
+                                    {{-- <input type="text" class="form-control" name="image"> --}}
+                                    @error('image')
                                         <small class="form-text text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
@@ -103,16 +126,45 @@
             </div>
         </div>
     </div>
+
+    <x-imageList />
+    <x-image />
+
 @endsection
 @section('js')
     <!-- Summernote -->
     <script src="{{ asset('dashboard/plugins/summernote/summernote-bs4.min.js') }}"></script>
+
     <script>
         $(function() {
             // Summernote
             $('#summernote').summernote({
                 placeholder: 'Vui lòng nhập nội dung mô tả sản phẩm'
             })
+        })
+        $('#imagelist').on('hide.bs.modal', function() {
+            // IMAGE LIST
+            var _links = $('input#image_list').val();
+            var _html = '';
+            if ($.inArray('[', _links)) {
+                _html += '<div class="col-sm-4 p-1"><img src="' + _links +
+                    '" class="img-fluid img-thumbnail" style="width:250px;" alt=""></div>';
+            } else {
+                var _arrs = $.parseJSON(_links);
+                _arrs.forEach(element => {
+                    let _url = element;
+                    _html += '<div class="col-sm-4 p-1"><img src="' + _url +
+                        '" class="img-fluid img-thumbnail" style="width:250px;" alt=""></div>';
+                });
+            }
+            $('#show_image_list').html(_html);
+        });
+        // IMAGE
+
+        $('#fileimage').on('hide.bs.modal', function() {
+            var _link = $('input#image').val();
+            var _img = '{{ url('') }}' + _link;
+            $('#showimage').attr('src', _img);
         })
     </script>
 @endsection

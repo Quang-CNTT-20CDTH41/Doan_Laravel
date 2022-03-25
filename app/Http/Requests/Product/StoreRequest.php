@@ -26,9 +26,9 @@ class StoreRequest extends FormRequest
         return [
             'name' => 'required|unique:products|max:255',
             'price' => 'required|max:255',
-            'file_upload' => 'required|max:255',
-            'image_list' => 'required|max:255',
-            'description' => 'required|max:255',
+            'image' => 'required|max:255',
+            'image_list' => 'required',
+            'description' => 'required',
         ];
     }
     public function messages()
@@ -37,7 +37,7 @@ class StoreRequest extends FormRequest
             'name.required' => 'Không được để trống tên sản phẩm',
             'name.unique' => 'Tên sản phẩm đã tồn tại',
             'price.required' => 'Không được để trống giá sản phẩm',
-            'file_upload.required' => 'Vui lòng tải lên hình ảnh đại diện của sản phẩm',
+            'image.required' => 'Vui lòng tải lên hình ảnh đại diện của sản phẩm',
             'image_list.required' => 'Vui lòng tải lên hình ảnh chi tiết của sản phẩm',
             'description.required' => 'Không được để trống nội dung sản phẩm',
         ];

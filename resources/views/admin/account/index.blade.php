@@ -12,6 +12,7 @@
                 <input type="search" class="form-control" id="livesearch" name="keyword" value="{{ request()->search }}"
                     placeholder="Nhập email nhân vật">
             </div>
+
         </div>
         <table class="table">
             <thead class="table-dark">
@@ -47,6 +48,7 @@
                 @endforeach
             </tbody>
         </table>
+
         {{ $users->appends(request()->all())->links() }}
     </div>
     <form action="" method="post" id="form-delete">
@@ -62,7 +64,7 @@
                 var keyword = $(this).val();
                 $.ajax({
                     type: 'get',
-                    url: "{{ route('accounts.index') }}",
+                    url: "{{ route('accounts.search') }}",
                     data: {
                         keyword: keyword
                     },

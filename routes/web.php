@@ -1,14 +1,7 @@
 <?php
 
-use App\Http\Controllers\AccountController;
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\BannerController;
-use App\Http\Controllers\BlogController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\OrderController;
-use App\Http\Controllers\OrderDetailController;
-use App\Http\Controllers\ProductController;
+namespace App\Http\Controllers;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -25,17 +18,22 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-Route::get('', [HomeController::class, 'index'])->name('home');
-Route::get('shop-grid', [HomeController::class, 'shop_grid'])->name('shop_grid');
-Route::get('shop-details', [HomeController::class, 'shop_details'])->name('shop_details');
-Route::get('shoping-cart', [HomeController::class, 'shoping_cart'])->name('shoping_cart');
-Route::get('checkout', [HomeController::class, 'checkout'])->name('checkout');
-Route::get('blog-details', [HomeController::class, 'blog_details'])->name('blog_details');
-Route::get('blog', [HomeController::class, 'blog'])->name('blog');
-Route::get('contact', [HomeController::class, 'contact'])->name('contact');
+Route::controller(HomeController::class)->group(function () {
+    Route::get('', 'index')->name('home');
+    Route::get('shop-grid', 'shop_grid')->name('shop_grid');
+    Route::get('shop-details/{id}', 'shop_details')->name('shop_details');
+    Route::post('shop-details/{id}', 'store')->name('shop_details.store');
+    Route::get('shoping-cart', 'shoping_cart')->name('shoping_cart');
+    Route::get('checkout', 'checkout')->name('checkout');
+    Route::get('blog-details', 'blog_details')->name('blog_details');
+    Route::get('blog', 'blog')->name('blog');
+    Route::get('contact', 'contact')->name('contact');
+    Route::get('profile', 'profile')->name('profile');
+});
 
-Route::group(['prefix' => 'admin'], function () {
+Route::group(['prefix' => 'admin', 'middleware' => 'App\Http\Middleware\AdminRight'], function () {
     Route::get('', [AdminController::class, 'index'])->name('admin');
+    Route::get('file', [AdminController::class, 'file'])->name('admin.file');
     Route::resources([
         'categories' => CategoryController::class,
         'products' => ProductController::class,
@@ -45,6 +43,5 @@ Route::group(['prefix' => 'admin'], function () {
         'banner' => BannerController::class,
         'accounts' => AccountController::class,
     ]);
-    // Route::get('accountsearch', [AccountController::class, 'search'])->name('accounts.search');
+    Route::get('accountsearch', [AccountController::class, 'search'])->name('accounts.search');
 });
-

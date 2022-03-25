@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Components\ShowCategory;
+use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -23,29 +26,33 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('index');
+        $categories = Category::all();
+        $products = Product::all();
+        $data = new ShowCategory($categories);
+        $htmlCategory = $data->show();
+        return view('index', compact('products', 'categories', 'htmlCategory'));
     }
 
     public function shop_grid()
     {
-        return view('shop-grid');
+        $categories = Category::all();
+        return view('shop-grid', compact('categories'));
     }
-    public function shop_details()
-    {
-    }
+
     public function shoping_cart()
     {
+        $categories = Category::all();
+        return view('shoping-cart', compact('categories'));
     }
-    public function checkout()
+
+    public function shop_details($id)
     {
+        $product = Product::find($id);
+        $categories = Category::all();
+        return view('shop-details', compact('categories', 'product'));
     }
-    public function blog_details()
-    {
-    }
-    public function blog()
-    {
-    }
-    public function contact()
+
+    public function store($id, Request $request)
     {
     }
 }

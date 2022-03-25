@@ -37,11 +37,12 @@
             <table class="table">
                 <thead class="thead-dark">
                     <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Price / Sale</th>
-                        <th scope="col">Category</th>
-                        <th scope="col">Status</th>
+                        <th scope="col" width="10px">ID</th>
+                        <th scope="col" width="250px">Name</th>
+                        <th scope="col" width="100px">Image</th>
+                        <th scope="col" width="200px">Price / Sale</th>
+                        <th scope="col" width="200px">Category</th>
+                        <th scope="col" width="20px">Status</th>
                         <th class="text-right pr-4">Action</th>
                     </tr>
                 </thead>
@@ -50,6 +51,7 @@
                         <tr>
                             <th>{{ $product->id }}</th>
                             <td>{{ $product->name }}</td>
+                            <td><img src="{{ $product->image }}" alt="" width="40px"></td>
                             <td>{{ $product->price }} / <span class="badge bg-success">{{ $product->sale_price }}</span>
                             </td>
                             <td>{{ $product->category->name }}</td>
@@ -61,8 +63,10 @@
                                 @endif
                             </td>
                             <td class="text-right">
-                                <a href="{{ route('products.edit', [$product]) }}" class="btn btn-success"><i
+                                <a href="{{ route('products.edit', [$product]) }}" class="btn btn-warning"><i
                                         class="fa fa-edit"></i></a>
+                                <a href="{{ route('products.show', [$product]) }}" class="btn btn-primary"><i
+                                        class="fa fa-eye"></i></a>
                                 <a href="{{ route('products.destroy', [$product]) }}" class="btn btn-danger btndelete"><i
                                         class="fa fa-trash"></i></a>
                             </td>

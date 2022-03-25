@@ -71,4 +71,9 @@ return [
         'route' => 'accounts.index',
         'icon' => 'fa-user',
     ],
+    [
+        'label' => 'File Manager',
+        'route' => 'admin.file',
+        'icon' => 'fa-image',
+    ],
 ];

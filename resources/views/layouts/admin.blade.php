@@ -30,7 +30,6 @@
         @include('layouts.inc.admin.footer')
     </div>
 
-
     <!-- jQuery -->
     <script src="{{ asset('dashboard/plugins/jquery/jquery.min.js') }}"></script>
     <!-- Bootstrap 4 -->

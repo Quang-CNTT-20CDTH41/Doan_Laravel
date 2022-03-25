@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Components\Recusive;
+use App\Http\Requests\Product\UpdateRequest;
 use App\Http\Requests\Product\StoreRequest;
 use App\Models\Category;
 use App\Models\Product;
@@ -40,11 +41,6 @@ class ProductController extends Controller
      */
     public function store(StoreRequest $request)
     {
-        $file = $request->file_upload;
-        $file_extension = $file->extension();
-        $file_name = time() . '-' . 'product.' . $file_extension;
-        $file->move(public_path('uploads/products'), $file_name);
-        $request->merge(['image' => $file_name]);
         if (Product::create($request->all())) {
             return redirect()->back()->with('status', 'Create Product successfully ');
         }
@@ -58,7 +54,9 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
+        $data = new Recusive(Category::all());
+        $htmlOption = $data->Recusive($parent_id = '');
+        return view('admin.product.show', compact('htmlOption', 'product'));
     }
 
     /**
@@ -69,7 +67,9 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        $data = new Recusive(Category::all());
+        $htmlOption = $data->Recusive($parent_id = '');
+        return view('admin.product.edit', compact('htmlOption', 'product'));
     }
 
     /**
@@ -79,9 +79,11 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(StoreRequest $request, Product $product)
+    public function update(UpdateRequest $request, Product $product)
     {
-        //
+        if ($product->update($request->all())) {
+            return redirect()->back()->with('status', 'Update Product successfully ');
+        }
     }
 
     /**
@@ -92,6 +94,11 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        if ($product->details->count() > 0) {
+            return redirect()->route('products.index')->with('error', 'Không thể xoá sản phẩm này');
+        } else {
+            $product->delete();
+            return redirect()->route('products.index')->with('status', 'Xoá sản phẩm thành công');
+        }
     }
 }

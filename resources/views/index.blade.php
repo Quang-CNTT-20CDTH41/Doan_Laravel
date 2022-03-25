@@ -1,4 +1,117 @@
 @extends('layouts.user')
+@section('css')
+    <style>
+        ul li {
+            list-style: none;
+        }
+
+        #main_menu>li {
+            z-index: 100;
+            float: left;
+        }
+
+        #main_menu>li:last-child {
+            border-right: none;
+        }
+
+        #main_menu li {
+            position: relative;
+        }
+
+        #main_menu>li a {
+            display: block;
+            text-transform: none;
+            padding: 10px;
+        }
+
+        #main_menu>li>a {
+            text-transform: uppercase;
+        }
+
+        #main_menu>li>a {
+            display: block;
+            /* padding: 20px; */
+        }
+
+        #main_menu li .sub_menu {
+            position: absolute;
+            display: none;
+            width: 200px;
+            background: #f5f5f5;
+            top: 0px;
+            left: 100%;
+        }
+
+        #main_menu li:hover>.sub_menu {
+            display: block;
+        }
+
+        #main_menu>li>.sub_menu {
+            top: 47px;
+            position: absolute;
+            left: 0px;
+        }
+
+        #main_menu li:hover {
+            color: rgb(189, 189, 189)
+        }
+
+        #search input[type='text'] {
+            width: 139px;
+            margin-top: 14px;
+            padding: 5px;
+            outline: none;
+            background: #EFEFEF;
+            background: url(../images/search.png) no-repeat 106px 2px;
+            border: none;
+            background-size: 28px;
+        }
+
+
+        /*this is style main_content*/
+        #main_content {
+            min-height: 450px;
+        }
+
+        #main_content .info_page p {
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        #main_content .info_page p:first-child {
+            font-size: 35px;
+            color: #f00;
+            margin-top: 40px;
+            margin-bottom: 7px;
+        }
+
+        #main_content .info_page p:last-child {
+            color: #E48585;
+        }
+
+
+        /*this is style footer*/
+        #footer {
+            background: #f9f9f9;
+            padding: 20px 0px;
+            color: #A6A6A6;
+            line-height: 20px;
+        }
+
+        #footer .info p:first-child {
+            text-transform: uppercase;
+        }
+
+        .featured__controls ul li {
+            margin-right: 0px !important;
+        }
+
+        .featured__controls ul li:after {
+            bottom: 10px;
+        }
+
+    </style>
+@endsection
 @section('main')
     <!-- Hero Section Begin -->
     <section class="hero">
@@ -103,148 +216,40 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="section-title">
-                        <h2>Featured Product</h2>
+                        <h2>All Products</h2>
                     </div>
                     <div class="featured__controls">
                         <ul>
-                            <li class="active" data-filter="*">All</li>
-                            <li data-filter=".oranges">Oranges</li>
-                            <li data-filter=".fresh-meat">Fresh Meat</li>
-                            <li data-filter=".vegetables">Vegetables</li>
-                            <li data-filter=".fastfood">Fastfood</li>
+                            <div class="row d-flex justify-content-center">
+                                <ul id="main_menu">
+                                    <li class="active" data-filter="*"><a>All</a></li>
+                                    {!! $htmlCategory !!}
+                                </ul>
+                            </div>
                         </ul>
                     </div>
                 </div>
             </div>
             <div class="row featured__filter">
-                <div class="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat">
-                    <div class="featured__item">
-                        <div class="featured__item__pic set-bg"
-                            data-setbg="{{ asset('site/img/featured/feature-1.jpg') }}">
-                            <ul class="featured__item__pic__hover">
-                                <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                            </ul>
-                        </div>
-                        <div class="featured__item__text">
-                            <h6><a href="#">Crab Pool Security</a></h6>
-                            <h5>$30.00</h5>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 mix vegetables fastfood">
-                    <div class="featured__item">
-                        <div class="featured__item__pic set-bg"
-                            data-setbg="{{ asset('site/img/featured/feature-2.jpg') }}">
-                            <ul class="featured__item__pic__hover">
-                                <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                            </ul>
-                        </div>
-                        <div class="featured__item__text">
-                            <h6><a href="#">Crab Pool Security</a></h6>
-                            <h5>$30.00</h5>
+                @foreach ($products as $model)
+                    <div class="col-lg-3 col-md-4 col-sm-6 mix {{ str_slug($model->category->name) }}">
+                        <div class="featured__item">
+                            <div class="featured__item__pic set-bg" data-setbg="{{ $model->image }}">
+                                <ul class="featured__item__pic__hover">
+                                    <li><a href="#"><i class="fa fa-heart"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-retweet"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                                </ul>
+                            </div>
+                            <div class="featured__item__text">
+                                <h6>
+                                    <a href="{{ route('shop_details', [$model]) }}">{{ $model->name }}</a>
+                                </h6>
+                                <h5>{{ number_format($model->price) }} VNĐ</h5>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 mix vegetables fresh-meat">
-                    <div class="featured__item">
-                        <div class="featured__item__pic set-bg"
-                            data-setbg="{{ asset('site/img/featured/feature-3.jpg') }}">
-                            <ul class="featured__item__pic__hover">
-                                <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                            </ul>
-                        </div>
-                        <div class="featured__item__text">
-                            <h6><a href="#">Crab Pool Security</a></h6>
-                            <h5>$30.00</h5>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 mix fastfood oranges">
-                    <div class="featured__item">
-                        <div class="featured__item__pic set-bg"
-                            data-setbg="{{ asset('site/img/featured/feature-4.jpg') }}">
-                            <ul class="featured__item__pic__hover">
-                                <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                            </ul>
-                        </div>
-                        <div class="featured__item__text">
-                            <h6><a href="#">Crab Pool Security</a></h6>
-                            <h5>$30.00</h5>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 mix fresh-meat vegetables">
-                    <div class="featured__item">
-                        <div class="featured__item__pic set-bg"
-                            data-setbg="{{ asset('site/img/featured/feature-5.jpg') }}">
-                            <ul class="featured__item__pic__hover">
-                                <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                            </ul>
-                        </div>
-                        <div class="featured__item__text">
-                            <h6><a href="#">Crab Pool Security</a></h6>
-                            <h5>$30.00</h5>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 mix oranges fastfood">
-                    <div class="featured__item">
-                        <div class="featured__item__pic set-bg"
-                            data-setbg="{{ asset('site/img/featured/feature-6.jpg') }}">
-                            <ul class="featured__item__pic__hover">
-                                <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                            </ul>
-                        </div>
-                        <div class="featured__item__text">
-                            <h6><a href="#">Crab Pool Security</a></h6>
-                            <h5>$30.00</h5>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 mix fresh-meat vegetables">
-                    <div class="featured__item">
-                        <div class="featured__item__pic set-bg"
-                            data-setbg="{{ asset('site/img/featured/feature-7.jpg') }}">
-                            <ul class="featured__item__pic__hover">
-                                <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                            </ul>
-                        </div>
-                        <div class="featured__item__text">
-                            <h6><a href="#">Crab Pool Security</a></h6>
-                            <h5>$30.00</h5>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 mix fastfood vegetables">
-                    <div class="featured__item">
-                        <div class="featured__item__pic set-bg"
-                            data-setbg="{{ asset('site/img/featured/feature-8.jpg') }}">
-                            <ul class="featured__item__pic__hover">
-                                <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                            </ul>
-                        </div>
-                        <div class="featured__item__text">
-                            <h6><a href="#">Crab Pool Security</a></h6>
-                            <h5>$30.00</h5>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </section>

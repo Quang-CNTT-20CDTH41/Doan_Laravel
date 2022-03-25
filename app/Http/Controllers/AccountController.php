@@ -15,7 +15,7 @@ class AccountController extends Controller
      */
     public function index()
     {
-        $users = User::latest()->search()->paginate(6);
+        $users = User::latest()->paginate(6);
         return view('admin.account.index', compact('users'));
     }
 
@@ -87,23 +87,23 @@ class AccountController extends Controller
         return redirect()->route('accounts.index')->with('status', 'Xoá người dùng thành công');
     }
 
-    // public function search(Request $request)
-    // {
-    //     $output = '';
-    //     $users = User::where('email', 'like', '%' . $request->keyword . '%')->get();
-    //     foreach ($users as  $user) {
-    //         $status = ($user->status == 1) ? '<span class="badge bg-success">Public</span>' : '<span class="badge bg-danger">Private</span>';
-    //         $output .= '<tr>
-    //             <th>1</th>
-    //             <td>' . $user->name . '</td>
-    //             <td>' . $user->email . '</td>
-    //             <td>' . $user->phone . '</td>
-    //             <td>' . $status . ' </td>
-    //             <td>
+    public function search(Request $request)
+    {
+        $output = '';
+        $users = User::where('email', 'like', '%' . $request->keyword . '%')->get();
+        foreach ($users as  $user) {
+            $status = ($user->status == 1) ? '<span class="badge bg-success">Public</span>' : '<span class="badge bg-danger">Private</span>';
+            $output .= '<tr>
+                <th>1</th>
+                <td>' . $user->name . '</td>
+                <td>' . $user->email . '</td>
+                <td>' . $user->phone . '</td>
+                <td>' . $status . ' </td>
+                <td>
                      
-    //             </td>
-    //         </tr>';
-    //     }
-    //     return response()->json($output);
-    // }
+                </td>
+            </tr>';
+        }
+        return response()->json($output);
+    }
 }

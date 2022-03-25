@@ -19,6 +19,8 @@
     <link rel="stylesheet" href="{{ asset('site/css/owl.carousel.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('site/css/slicknav.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('site/css/style.css') }}" type="text/css">
+
+    @yield('css')
 </head>
 
 <body>
@@ -33,9 +35,18 @@
     <script src="{{ asset('site/js/jquery.nice-select.min.js') }}"></script>
     <script src="{{ asset('site/js/jquery-ui.min.js') }}"></script>
     <script src="{{ asset('site/js/jquery.slicknav.js') }}"></script>
-    <script src="{{ asset('site/js/mixitup.min.js') }}"></script>
+    @yield('loading')
     <script src="{{ asset('site/js/owl.carousel.min.js') }}"></script>
+    <script src="{{ asset('site/js/mixitup.min.js') }}"></script>
     <script src="{{ asset('site/js/main.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
+        integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
+        integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous">
+    </script>
+    @yield('js')
+
 
 </body>
 
