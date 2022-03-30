@@ -73,6 +73,7 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'phone' => $data['phone'],
             'address' => $data['address'],
+            'google_id' => 'null',
             'sex' => $data['sex'],
             'birthday' => $data['birthday'],
             'admin' => 0,

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Laravel\Socialite\Facades\Socialite;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,3 +46,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'App\Http\Middleware\AdminRig
     ]);
     Route::get('accountsearch', [AccountController::class, 'search'])->name('accounts.search');
 });
+
+
+Route::get('auth/callback', [SocialiteController::class, 'callback'])->name('callback');
+Route::get('auth/redirect', [SocialiteController::class, 'redirect'])->name('redirect');

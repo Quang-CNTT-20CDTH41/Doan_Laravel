@@ -43,9 +43,8 @@
                                         <input type="text" class="form-control d-none" id="image_list"
                                             placeholder="Tải hình ảnh" name="image_list" multiple
                                             value="{{ old('image_list') }}">
-                                        <span class=""><button type="button" class="btn btn-danger text-white"
-                                                data-toggle="modal" data-target="#imagelist"><i
-                                                    class="fas fa-folder"></i></button></span>
+                                        <button type="button" class="btn btn-danger text-white" data-toggle="modal"
+                                            data-target="#imagelist"><i class="fas fa-folder"></i></button>
                                     </div>
                                     <div id="show_image_list" class="row mt-3">
 
@@ -95,16 +94,18 @@
                                     <label for="" class="col-form-label">Hình ảnh đại diện</label>
                                     <div class="input-group px-0">
                                         <input type="text" class="form-control d-none" id="image" placeholder="Tải hình ảnh"
-                                            name="image" value="{{ old('image') }}>
-                                                                <span class="      "><button type="button"
-                                            class="btn btn-success text-white" data-toggle="modal"
-                                            data-target="#fileimage"><i class="fas fa-folder"></i></button></span>
+                                            name="image" value="{{ old('image') }}">
+                                        <span class="">
+                                            <button type="button" class="btn btn-success text-white" data-toggle="modal"
+                                                data-target="#fileimage">
+                                                <i class="fas fa-folder"></i>
+                                            </button>
+                                        </span>
                                         <div class="m-3">
                                             <img src="" class="img-fluid img-thumbnail" id="showimage" alt=""
                                                 style="width:250px">
                                         </div>
                                     </div>
-                                    {{-- <input type="text" class="form-control" name="image"> --}}
                                     @error('image')
                                         <small class="form-text text-danger">{{ $message }}</small>
                                     @enderror

@@ -21,6 +21,7 @@ class UserFactory extends Factory
             'name' => $this->faker->name(),
             'phone' => $this->faker->phoneNumber(),
             'address' => $this->faker->address(),
+            'google_id' => 'null',
             'sex' => $this->faker->boolean(),
             'birthday' => $this->faker->date('Y-m-d'),
             'status' => $this->faker->boolean(),
